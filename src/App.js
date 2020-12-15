@@ -15,12 +15,13 @@ const initialState = [
 export default function App() {
   const localStorageData = JSON.parse(window.localStorage.getItem('contacts'));
   const [filter, setFilter] = useState('');
-  const [contacts, setContacts] = useState(() =>
-    localStorageData.length ? localStorageData : initialState,
-  );
+  const [contacts, setContacts] = useState(() => localStorageData);
 
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
+    if (!contacts.length) {
+      setContacts(initialState);
+    }
   }, [contacts]);
 
   const addContact = (name, number) => {
